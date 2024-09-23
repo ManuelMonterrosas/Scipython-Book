@@ -17,7 +17,10 @@ and the other direction:
 [['D'], ['C', 'H'], ['B', 'G', 'L'], ['A', 'F', 'K'], ['E', 'J'], ['I']]
 """
 
-fname = r'C:\Users\manym\Documents\Coding\Scipython-book\Chapter 2 - The core python language I\2.6 File Input, Output\array.txt'
+import os
+
+cwd = os.getcwd()
+fname = cwd + r'\Chapter 2 - The core python language I\2.6 File Input, Output\array.txt'
 f = open(fname, 'r')
 grid = []
 for line in f.readlines():
@@ -28,12 +31,22 @@ print([[row[column] for row in grid] for column in range(len(grid[0]))])
 # Output diagonals in one direction. Start from the upper-left corner, inverse diagonals.
 # Here i,j sum is constant per diagonal
 diag_backwards = []
-for sum in range(len(grid)+len(grid[0]-1)):
-    # how to determine i,j ?
-    diag_backwards.append([])
+for sum in range(len(grid)+len(grid[0])-1):
+    diag_aux = []
+    for row_ind in range(len(grid)):
+        column_ind = sum - row_ind
+        if column_ind >= 0  and column_ind <= len(grid[0])-1:
+            diag_aux.append(grid[row_ind][column_ind])
+    diag_backwards.append([diag_aux])
+print(diag_backwards)
 # And the other direction. Start from the upper-right corner, forward diagonals. 
 # Here i,j difference is constant per diagonal
 diag_forwards = []
 for diff in range(-len(grid[0])+1, len(grid)):  # I am doing m-n (row-column)
-    # how to determine i,j ?
-    diag_forwards.append([])
+    diag_aux = []
+    for row_ind in range(len(grid)):
+        column_ind = row_ind - diff
+        if column_ind >= 0  and column_ind <= len(grid[0])-1:
+            diag_aux.append(grid[row_ind][column_ind])
+    diag_forwards.append([diag_aux])
+print(diag_forwards)
